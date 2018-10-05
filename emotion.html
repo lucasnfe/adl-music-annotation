@@ -1,0 +1,150 @@
+<html>
+    <head>
+        <title>ADL Music Annotation Tool</title>
+
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+        <style>
+            .wrapper img {
+                min-width: 250px;
+                width: 100%;
+            }
+        </style>
+    </head>
+
+    <body class="container w-75 text-justify" onload="main()">
+        <div class="container pt-4">
+            <h2 class="text-center">Music Emotion Annotation Task</h2>
+        </div>
+
+        <div class="container pt-2">
+            <h4 class="pt-4">Emotion</h4>
+            <p> You will annotate the music pieces according to a dimensional emotion map where
+            emotions are determined in part by their valence and in part by their
+            arousal, as shown in the Figure below.</p>
+
+            <div class="row align-self-center bg-light text-dark">
+
+                <div class="col mb-2 wrapper">
+                    <img src="img/circumplex-model.png" class="img-responsive"></img>
+                </div>
+
+                <div class="col mb-2 align-self-center">
+                    <h2>Valence (horizontal axis)</h2>
+                    <p>Represents how pleasant the piece is </br> (from unpleasant to pleasant).</p>
+
+                    <h2>Arousal (vertical axis)</h2>
+                    <p>Represents how intense the music is </br> (from mild to intense).</p>
+                </div>
+            </div>
+
+            <h4 class="pt-4">Examples</h4>
+            <p>
+               Please listen to this following example pieces and indicate, for each one of them, if arousal and valence
+               are increasing or decreasing. Moreover, write two or three sentences describing how you perceived the changes
+               in valence and arousal of these pieces.
+            </p>
+
+            <div class="container row text-center">
+                <div class="col">
+                    <p>Example 1</p>
+
+                    <audio controls>
+                      <source src="audio/examples/example-01.mp3" type="audio/mpeg">
+                    </audio>
+
+                    <form class="text-left pt-4">
+                        <div class="row">
+                            <div class="input-group mb-3">
+                              <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">Valence</label>
+                              </div>
+                              <select class="custom-select" id="inputGroupSelect1-01">
+                                <option selected>Choose...</option>
+                                <option value="1">Increasing</option>
+                                <option value="2">Decreasing</option>
+                                <option value="3">It's is not changing considerably</option>
+                              </select>
+                            </div>
+
+                            <div class="input-group mb-3">
+                              <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">Arousal</label>
+                              </div>
+                              <select class="custom-select" id="inputGroupSelect1-02">
+                                <option selected>Choose...</option>
+                                <option value="1">Increasing</option>
+                                <option value="2">Decreasing</option>
+                                <option value="3">It's is not changing considerably</option>
+                              </select>
+                            </div>
+
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">Description</span>
+                              </div>
+                              <textarea class="form-control" aria-label="With textarea" id="inputGroupDescription1"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col offset-md-2">
+                    <p>Example 2</p>
+
+                    <audio controls>
+                      <source src="audio/examples/example-02.mp3" type="audio/mpeg">
+                    </audio>
+
+                    <form class="text-left pt-4">
+                        <div class="row">
+                            <div class="input-group mb-3">
+                              <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">Valence</label>
+                              </div>
+                              <select class="custom-select" id="inputGroupSelect2-01">
+                                <option selected>Choose...</option>
+                                <option value="1">Increasing</option>
+                                <option value="2">Decreasing</option>
+                                <option value="3">It's is not changing considerably</option>
+                              </select>
+                            </div>
+
+                            <div class="input-group mb-3">
+                              <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">Arousal</label>
+                              </div>
+                              <select class="custom-select" id="inputGroupSelect2-02">
+                                <option selected>Choose...</option>
+                                <option value="1">Increasing</option>
+                                <option value="2">Decreasing</option>
+                                <option value="3">It's not changing considerably</option>
+                              </select>
+                            </div>
+
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">Description</span>
+                              </div>
+                              <textarea class="form-control" aria-label="With textarea" id="inputGroupDescription2"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- END GRID -->
+            </div>
+
+            <div class="container pt-4 pb-4 page-controler">
+                <button type="button" class="btn btn-outline-dark" id="back-button" href="#" onClick="nextPage('index.html')">Back</button>
+                <button type="button" class="btn btn-outline-dark" id="next-button" href="#" onClick="submitExampleForm(); nextPage('annotation.html')" disabled>Next</button>
+            </div>
+        </div>
+
+        <script src="js/lib/page-manager.js"></script>
+        <script src="js/emotion.js"></script>
+    </body>
+</html>

@@ -1,0 +1,67 @@
+<html>
+    <head>
+        <title>ADL Music Annotation Tool</title>
+
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    </head>
+
+    <body id="body" onload="main()">
+        <div class="container pt-4">
+            <h2 class="text-center">Music Emotion Annotation Task</h2>
+        </div>
+
+        <div class="container pt-4">
+            <div id="annotation-area" class="row">
+                <div class="col text-center p-3 mb-2 bg-white text-dark">
+                    <canvas id="circumplex-canvas" onmousemove="draw(event)" width="500" height="500"></canvas>
+
+                    <audio id="audio-controls">
+                      <source id="audio-source" src="" type="audio/mpeg">
+                    </audio>
+
+                    <div>
+                        <p id="circumplex-labels">Valence: 0.0</br>Arousal: 0.0</p>
+                    </div>
+                </div>
+                <div class="col align-self-center">
+                    <div class="p-3 mb-2 bg-danger text-white">
+                        <h2>Instructions</h2>
+                        <p>
+                            <ul>
+                                <li>Press and hold the point at the position that better represents the emotion of current part of the piece.</li>
+                                <li>Click anywhere in the circle to move the point to that position.</li>
+                                <li>Release the point to pause the piece.</li>
+                                <!-- <li>Hold down the point to play the piece and ANNOTATE it.</li> -->
+                                <!-- <li>Annotation only takes place while point is being held down.</li> -->
+                                <li>Press L to show/hide emotion labels.</li>
+                            </ul>
+                        </p>
+                    </div>
+
+                    <div class="p-3 mb-2 bg-light text-dark">
+                        <h2>Valence (horizontal axis)</h2>
+                        <p>Represents how pleasant the piece is(from unpleasant to pleasant).</p>
+
+                        <h2>Arousal (vertical axis)</h2>
+                        <p>Represents how intense the music is (from mild to intense).</p>
+                    </div>
+
+                    <div class="p-3 mb-2 bg-light text-dark">
+                        <h2>Progress</h2>
+                        <div class="progress text-center">
+                            <div id="progress" class="progress-bar progress-bar-striped bg-success" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <script src="js/lib/page-manager.js"></script>
+            <script src="js/lib/download-lib.js"></script>
+            <script src="js/annotation.js"></script>
+    </body>
+</html>
