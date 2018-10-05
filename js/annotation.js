@@ -4,13 +4,7 @@ var drag = false;
 
 // Canvas geometry variables
 var circumplexRadius = 200;
-var circumplexXLimit = 340;
-var circumplexYLimit = 275;
-
 var pointRadius = 25;
-
-var clientX = 0.0;
-var clientY = 0.0;
 
 // Canvas global object
 var canvas = document.getElementById("circumplex-canvas");
@@ -101,6 +95,7 @@ function init() {
     document.getElementById("annotation-area").addEventListener('mousedown', mouseDown, false);
     document.getElementById("annotation-area").addEventListener('mouseup', mouseUp, false);
     document.getElementById("annotation-area").addEventListener('mousemove', mouseMove, false);
+    
     document.getElementById("body").addEventListener('keypress', keyPress, false);
 
     audioControls.currentTime = 0;
@@ -110,8 +105,6 @@ function init() {
 function resetAnnotationPoint() {
     init();
 
-    console.log("reset!");
-
     annotationPoint.x = canvas.width*0.5;
     annotationPoint.y = canvas.width*0.5;
     annotationPoint.isPlayed = false;
@@ -119,16 +112,61 @@ function resetAnnotationPoint() {
     audioControls.pause();
 }
 
-function getPiecesToAnnotate(piecesData, annotations) {
-    var piecesToAnnotate = []
+function getPiecesAnnotationCount(annotationData) {
+    var piecesAnnCount = {};
+    for (var key in annotationData) {
+        if (annotationData.hasOwnProperty(key)) {
+            var pieceInfo = key.split("_")
+            var pieceId = pieceInfo[0]
+            var pieceAnnCount = parseInt(pieceInfo[1])
 
-    for (var key in piecesData) {
-        if (piecesData.hasOwnProperty(key) && annotations[key] == null) {
-            piecesData[key].id = key;
-            piecesToAnnotate.push(piecesData[key]);
+            if(piecesAnnCount.hasOwnProperty(pieceId))
+                piecesAnnCount[pieceId] += 1
+            else
+                piecesAnnCount[pieceId] = pieceAnnCount;
+         }
+     }
+     return piecesAnnCount;
+}
+
+function getMinAnnotatedPieces(piecesAnnCount, piecesData, amount) {
+    var minAnnotatedPieces = [];
+
+    for (var i = 0; i < amount; i++) {
+        var minCount = 9999999;
+        var minPiece = "";
+        for (var key in piecesAnnCount) {
+            if (piecesAnnCount.hasOwnProperty(key)) {
+                if(piecesAnnCount[key] < minCount) {
+                    minCount = piecesAnnCount[key];
+                    minPiece = key;
+                }
+            }
         }
+
+        var isPieceIncluded = false;
+        for (var j = 0; j < minAnnotatedPieces.length; j++) {
+            if (minAnnotatedPieces[j].id == minPiece) {
+                isPieceIncluded = true;
+            }
+        }
+
+        if(!isPieceIncluded) {
+            piecesData[minPiece].id = minPiece;
+            minAnnotatedPieces.push(piecesData[minPiece]);
+        }
+
+        piecesAnnCount[minPiece] = null;
     }
 
+    return minAnnotatedPieces;
+}
+
+function getPiecesToAnnotate(piecesData, annotationData, amountToAnnotate) {
+    var piecesAnnCount = getPiecesAnnotationCount(annotationData);
+    var piecesToAnnotate = getMinAnnotatedPieces(piecesAnnCount, piecesData, amountToAnnotate);
+
+    console.log(piecesToAnnotate);
     return piecesToAnnotate;
 }
 
@@ -137,7 +175,7 @@ function initAnnotationPoint(data) {
     var annotationData = data.annotations;
 
     if(piecesData != null) {
-        piecesToAnnotate = getPiecesToAnnotate(piecesData, annotationData);
+        piecesToAnnotate = getPiecesToAnnotate(piecesData, annotationData, numberPiecesToAnnotate);
 
         document.getElementById('audio-source').src = piecesToAnnotate[currentPiece].audio
         document.getElementById('audio-controls').load();
@@ -153,14 +191,10 @@ function initAnnotationPoint(data) {
 }
 
 function update() {
-    updateFeedbackValue();
-    // updateAnimation();
-
     if(drag) {
         if(audioControls.paused)
             audioControls.play();
 
-        updateCurrentPointPos();
         updateProgressBar();
         annotateEmotion();
     }
@@ -184,24 +218,21 @@ function updateFeedbackValue() {
     }
 }
 
-function updateCurrentPointPos(e) {
-    var rect = canvas.getBoundingClientRect();
+function updateCurrentPointPos(mousePos) {
+    mousePos.x = mousePos.x - canvas.width*0.5;
+    mousePos.y = mousePos.y - canvas.height*0.5;
 
-    var newPosX = clientX - rect.left - canvas.width*0.5;
-    var newPosY = clientY - rect.top - canvas.height*0.5;
+    var mag = Math.sqrt(mousePos.x*mousePos.x + mousePos.y*mousePos.y);
 
-    if(Math.abs(newPosX) < circumplexXLimit &&
-       Math.abs(newPosY) < circumplexYLimit) {
-
-        var mag = Math.sqrt(newPosX*newPosX + newPosY*newPosY);
-        if(mag > circumplexRadius) {
-            newPosX = newPosX/mag * circumplexRadius;
-            newPosY = newPosY/mag * circumplexRadius;
-        }
-
-        annotationPoint.x = newPosX + canvas.width*0.5;
-        annotationPoint.y = newPosY + canvas.height*0.5;
+    if(mag > circumplexRadius) {
+        mousePos.x = mousePos.x/mag * circumplexRadius;
+        mousePos.y = mousePos.y/mag * circumplexRadius;
     }
+
+    annotationPoint.x = mousePos.x + canvas.width*0.5;
+    annotationPoint.y = mousePos.y + canvas.height*0.5;
+
+    updateFeedbackValue();
 }
 
 function updateProgressBar() {
@@ -225,23 +256,24 @@ function updateProgressBar() {
     }
 }
 
+function getMousePosition(e) {
+    var mouseX = e.offsetX * canvas.width / canvas.clientWidth;
+    var mouseY = e.offsetY * canvas.height / canvas.clientHeight;
+    return {x: mouseX, y: mouseY};
+}
+
 function mouseDown(e) {
-    clientX = e.clientX;
-    clientY = e.clientY;
+    e.preventDefault();
+    var mousePos = getMousePosition(e);
 
-    var rect = canvas.getBoundingClientRect();
+    var distClickToPoint = Math.sqrt(Math.pow((mousePos.x-annotationPoint.x), 2) +
+                                     Math.pow((mousePos.y-annotationPoint.y), 2));
 
-    var newPosX = clientX - rect.left;
-    var newPosY = clientY - rect.top;
-
-    var mag = Math.sqrt(Math.pow((newPosX-annotationPoint.x), 2) +
-                        Math.pow((newPosY-annotationPoint.y), 2));
-
-    if(mag < annotationPoint.radius) {
+    if(distClickToPoint < annotationPoint.radius)
         drag = true;
-    }
 
-    updateCurrentPointPos();
+
+    updateCurrentPointPos(mousePos);
 }
 
 function mouseUp(e) {
@@ -251,8 +283,11 @@ function mouseUp(e) {
 
 function mouseMove(e) {
     e.preventDefault();
-    clientX = e.clientX;
-    clientY = e.clientY;
+
+    if(drag) {
+        var mousePos = getMousePosition(e);
+        updateCurrentPointPos(mousePos);
+    }
 }
 
 function keyPress(e) {
@@ -271,7 +306,7 @@ function draw() {
 
     // Draw annotation points
     if(annotationPoint.isEnabled) {
-        var pointPosX = annotationPoint.x + 5;
+        var pointPosX = annotationPoint.x + 3;
         var pointPosY = annotationPoint.y;
 
         context.beginPath();
@@ -431,8 +466,3 @@ function parseMeasuresAmountFromMusicXML(music_xml) {
 
     return measuresAmount;
 }
-
-// if(context != null) {
-//     init();
-//     update();
-// }
