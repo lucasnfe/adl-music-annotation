@@ -95,7 +95,7 @@ function init() {
     document.getElementById("annotation-area").addEventListener('mousedown', mouseDown, false);
     document.getElementById("annotation-area").addEventListener('mouseup', mouseUp, false);
     document.getElementById("annotation-area").addEventListener('mousemove', mouseMove, false);
-    
+
     document.getElementById("body").addEventListener('keypress', keyPress, false);
 
     audioControls.currentTime = 0;
@@ -112,8 +112,14 @@ function resetAnnotationPoint() {
     audioControls.pause();
 }
 
-function getPiecesAnnotationCount(annotationData) {
+function getPiecesAnnotationCount(piecesData, annotationData) {
     var piecesAnnCount = {};
+    for (var key in piecesData) {
+        if (piecesData.hasOwnProperty(key)) {
+            piecesAnnCount[key] = 0;
+        }
+    }
+
     for (var key in annotationData) {
         if (annotationData.hasOwnProperty(key)) {
             var pieceInfo = key.split("_")
@@ -122,8 +128,6 @@ function getPiecesAnnotationCount(annotationData) {
 
             if(piecesAnnCount.hasOwnProperty(pieceId))
                 piecesAnnCount[pieceId] += 1
-            else
-                piecesAnnCount[pieceId] = pieceAnnCount;
          }
      }
      return piecesAnnCount;
@@ -153,6 +157,7 @@ function getMinAnnotatedPieces(piecesAnnCount, piecesData, amount) {
 
         if(!isPieceIncluded) {
             piecesData[minPiece].id = minPiece;
+            piecesData[minPiece].count = minCount;
             minAnnotatedPieces.push(piecesData[minPiece]);
         }
 
@@ -163,7 +168,7 @@ function getMinAnnotatedPieces(piecesAnnCount, piecesData, amount) {
 }
 
 function getPiecesToAnnotate(piecesData, annotationData, amountToAnnotate) {
-    var piecesAnnCount = getPiecesAnnotationCount(annotationData);
+    var piecesAnnCount = getPiecesAnnotationCount(piecesData, annotationData);
     var piecesToAnnotate = getMinAnnotatedPieces(piecesAnnCount, piecesData, amountToAnnotate);
 
     console.log(piecesToAnnotate);
@@ -412,7 +417,8 @@ function saveAnnotation() {
     // for(i = 0; i < piecesToAnnotate.length; i++) {
         console.log(annotation);
 
-        firebase.database().ref('annotations/' + piecesToAnnotate[currentPiece].id).set({
+        var annotationId = piecesToAnnotate[currentPiece].id + "_" + (piecesToAnnotate[currentPiece].count + 1).toString();
+        firebase.database().ref('annotations/' + annotationId).set({
             valence : annotation.valence,
             arousal: annotation.arousal,
             answer1_1: annotation.answer1_1,
