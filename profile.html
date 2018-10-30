@@ -1,0 +1,123 @@
+<html>
+    <head>
+        <title>ADL Music Annotation Tool</title>
+
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/profile.css">
+    </head>
+
+    <body class="container w-75" onload="main()">
+        <div class="container pt-4">
+            <h2 class="text-center">Music Emotion Annotation Task</h2>
+        </div>
+
+        <h4 class="text-left pt-4">Please fill out this profile questionnaire:</h4>
+
+        <div class="container pt-2">
+
+            <form>
+                <div class="form-group">
+                      <label>Gender:</label>
+                      <select class="form-control" id="genderSelect">
+                        <option selected></option>
+                        <option>Female</option>
+                        <option>Male</option>
+                        <option>Transgender Female/Trans Woman/ Male-to-Female (MTF)</option>
+                        <option>Transgender Male/Trans Man/ Female-to-Male (FTM)</option>
+                        <option>Genderqueer, neither exclusively male nor female </option>
+                        <option>Other</option>
+                        <option>Choose not to disclose</option>
+                      </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Age:</label>
+                    <select class="form-control" id="ageSelect">
+                      <option selected></option>
+                      <option>15-20</option>
+                      <option>21-25</option>
+                      <option>26-30</option>
+                      <option>31-35</option>
+                      <option>36-40</option>
+                      <option>41-45</option>
+                      <option>46-50</option>
+                      <option>51-55</option>
+                      <option>55-60</option>
+                      <option>61-65</option>
+                      <option>76-80</option>
+                      <option>81-85</option>
+                      <option>86-90</option>
+                      <option>91-95</option>
+                      <option>96-100</option>
+                      <option>Choose not to disclose</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Country:</label>
+                    <select class="form-control bfh-countries" id="countrySelect" data-country="US"></select>
+                    </select>
+                  </div>
+
+                  <!-- <div class="form-group">
+                      <label>What is your musicianship experience?</label>
+                      <select class="form-control" id="musicianshipSelect">
+                        <option selected></option>
+                        <option>I've never studied music theory/practice</option>
+                        <option>I've studied music theory/practice in high school</option>
+                        <option>I've studied music theory/practice with a private teacher or by myself.</option>
+                        <option>I have an undergraduate degree in music</option>
+                        <option>I have a graduate degree in music</option>
+                      </select>
+                  </div> -->
+
+                  <div class="form-group">
+                     <label class="statement">What is your experience as a musician?</label>
+                     <ul class='likert' id="musicianshipSelect">
+                       <li>
+                         <input type="radio" name="likert" value="1" id="musicianshipCheck1">
+                         <label>I've never studied music theory/practice</label>
+                       </li>
+                       <li>
+                         <input type="radio" name="likert" value="2" id="musicianshipCheck2">
+                         <label></label>
+                       </li>
+                       <li>
+                         <input type="radio" name="likert" value="3" id="musicianshipCheck3">
+                         <label></label>
+                       </li>
+                       <li>
+                         <input type="radio" name="likert" value="4" id="musicianshipCheck4">
+                         <label></label>
+                       </li>
+                       <li>
+                         <input type="radio" name="likert" value="5" id="musicianshipCheck5">
+                         <label>I have an undergraduate degree in music</label>
+                       </li>
+                     </ul>
+                  </div>
+
+                  <div class="form-group" id="knownPiecesCheckboxes">
+                      <label for="exampleFormControlSelect1">Check the pieces that you knew before annotating:</label>
+                  </div>
+
+                  <button type="button" class="btn btn-primary" id="submitButton" onClick="submitProfileForm()" disabled>Submit</button>
+            </form>
+        </div>
+
+        <!-- Load bootstrap scripts  -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+        <!-- Load lib scripts  -->
+        <script src="js/lib/page-manager.js"></script>
+        <script src="js/lib/bootstrap-formhelpers.js"></script>
+
+        <!-- Load profile script  -->
+        <script src="js/annotation/annotation-firebase.js"></script>
+        <script src="js/profile.js"></script>
+    </body>
+</html>

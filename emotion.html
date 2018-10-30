@@ -7,43 +7,37 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-
-        <style>
-            .wrapper img {
-                min-width: 250px;
-                width: 100%;
-            }
-        </style>
+        <link rel="stylesheet" href="css/emotion.css">
     </head>
 
-    <body class="container w-75 text-justify" onload="main()">
+    <body class="container" onload="main()">
         <div class="container pt-4">
             <h2 class="text-center">Music Emotion Annotation Task</h2>
         </div>
 
-        <div class="container pt-2">
+        <div class="container-fluid pt-2">
             <h4 class="pt-4">Emotion</h4>
-            <p> You will annotate the music pieces according to a dimensional emotion map where
-            emotions are determined in part by their valence and in part by their
-            arousal, as shown in the Figure below.</p>
+            <p class="text-justify"> You will annotate the music pieces according to a dimensional emotion map where
+            emotions are determined in part by their <b>valence</b> and in part by their
+            <b>arousal</b>, as shown in the figure below.</p>
 
             <div class="row align-self-center bg-light text-dark">
 
-                <div class="col mb-2 wrapper">
+                <div class="col m-4 wrapper">
                     <img src="img/circumplex-model.png" class="img-responsive"></img>
                 </div>
 
                 <div class="col mb-2 align-self-center">
-                    <h2>Valence (horizontal axis)</h2>
-                    <p>Represents how pleasant the piece is </br> (from unpleasant to pleasant).</p>
+                    <h2>Valence</h2>
+                    <p>Represents the sentiment of the piece. From <b>NEGATIVE</b> to <b>POSITIVE</b>.</p>
 
-                    <h2>Arousal (vertical axis)</h2>
-                    <p>Represents how intense the music is </br> (from mild to intense).</p>
+                    <h2>Arousal</h2>
+                    <p>Represents the intensity of the piece. From <b>MILD</b> to <b>INTENSE</b>.</p>
                 </div>
             </div>
 
             <h4 class="pt-4">Examples</h4>
-            <p>
+            <p class="text-justify">
                Please listen to this following example pieces and indicate, for each one of them, if arousal and valence
                are increasing or decreasing. Moreover, write two or three sentences describing how you perceived the changes
                in valence and arousal of these pieces.
@@ -140,7 +134,7 @@
 
             <div class="container pt-4 pb-4 page-controler">
                 <button type="button" class="btn btn-outline-dark" id="back-button" href="#" onClick="nextPage('index.html')">Back</button>
-                <button type="button" class="btn btn-outline-dark" id="next-button" href="#" onClick="submitExampleForm(); nextPage('annotation.html')" disabled>Next</button>
+                <button type="button" class="btn btn-outline-dark" id="next-button" href="#" onClick="submitExampleForm(); nextPage('tutorial.html')" disabled>Next</button>
             </div>
         </div>
 

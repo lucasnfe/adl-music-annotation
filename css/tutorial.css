@@ -1,0 +1,19 @@
+#tutorial-video {
+     /* position: absolute; */
+     top: 0; right: 0;
+     bottom: 0; left: 0;
+     margin: auto;
+     width: 100%;
+ }
+
+#video-area {
+    background-color: black;
+    padding-top: 60px;
+    padding-bottom: 60px;
+    width: 100% !important;
+}
+
+ul {
+    /* text-decoration: none; */
+    list-style: none;
+}

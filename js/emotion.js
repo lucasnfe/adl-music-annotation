@@ -1,34 +1,72 @@
 
 function main() {
+    // Valence Example 1
     var select1_1 = document.getElementById('inputGroupSelect1-01');
+    var answer1_1 = sessionStorage.getItem("answer1_1");
+    if (answer1_1 != null) {
+        select1_1.value = answer1_1;
+    }
+
     select1_1.addEventListener("input", function (event) {
         enableNextButton();
     });
 
+    // Arousal Example 1
     var select1_2 = document.getElementById('inputGroupSelect1-02');
+    var answer1_2 = sessionStorage.getItem("answer1_2");
+    if (answer1_2 != null) {
+        select1_2.value = answer1_2;
+    }
+
     select1_2.addEventListener("input", function (event) {
         enableNextButton();
     });
 
+    // Description Example 1
     var description1 = document.getElementById('inputGroupDescription1');
+    var answer1_3 = sessionStorage.getItem("answer1_3");
+    if (answer1_3 != null) {
+        description1.value = answer1_3;
+    }
+
     description1.addEventListener("input", function (event) {
         enableNextButton();
     });
 
+    // Valence Example 2
     var select2_1 = document.getElementById('inputGroupSelect2-01');
+    var answer2_1 = sessionStorage.getItem("answer2_1");
+    if (answer2_1 != null) {
+        select2_1.value = answer2_1;
+    }
+
     select2_1.addEventListener("input", function (event) {
         enableNextButton();
     });
 
+    // Arousal Example 2
     var select2_2 = document.getElementById('inputGroupSelect2-02');
+    var answer2_2 = sessionStorage.getItem("answer2_2");
+    if (answer2_2 != null) {
+        select2_2.value = answer2_2;
+    }
+
     select2_2.addEventListener("input", function (event) {
         enableNextButton();
     });
 
+    // Description Example 2
     var description2 = document.getElementById('inputGroupDescription2');
+    var answer2_3 = sessionStorage.getItem("answer2_3");
+    if (answer2_3 != null) {
+        description2.value = answer2_3;
+    }
+
     description2.addEventListener("input", function (event) {
         enableNextButton();
     });
+
+    enableNextButton();
 }
 
 function enableNextButton() {
