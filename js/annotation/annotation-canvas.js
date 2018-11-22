@@ -20,6 +20,8 @@ labels.src = "img/circumplex-labels.png";
 var playIcon = new Image();
 playIcon.src = "img/play-icon.png";
 
+var ongoingTouches = [];
+
 function AnnotationPoint(x, y, radius) {
     this.x = x;
     this.y = y;
@@ -37,10 +39,18 @@ function initCanvas() {
     if(canvas != null) {
         context = canvas.getContext("2d");
 
-        canvas.addEventListener('mousedown', mouseDown, false);
-        canvas.addEventListener('mouseup', mouseUp, false);
-        canvas.addEventListener('mousemove', mouseMove, false);
-        canvas.addEventListener ("mouseout", mouseUp, false);
+        if (/Mobi|Android/i.test(navigator.userAgent)) {
+            canvas.addEventListener("touchstart", handleStart, false);
+            canvas.addEventListener("touchmove", handleMove, false);
+            canvas.addEventListener("touchend", handleEnd, false);
+            canvas.addEventListener("touchcancel", handleEnd, false);
+        }
+        else {
+            canvas.addEventListener('mousedown', mouseDown, false);
+            canvas.addEventListener('mouseup', mouseUp, false);
+            canvas.addEventListener('mousemove', mouseMove, false);
+            canvas.addEventListener ("mouseout", mouseUp, false);
+        }
 
         document.getElementById("body").addEventListener('keypress', keyPress, false);
 
@@ -81,16 +91,16 @@ function updateCurrentPointPos(mousePos) {
 }
 
 
-function getMousePosition(e) {
-    var mouseX = e.offsetX * canvas.width / canvas.clientWidth;
-    var mouseY = e.offsetY * canvas.height / canvas.clientHeight;
+function getMousePosition(x, y) {
+    var mouseX = x * canvas.width / canvas.clientWidth;
+    var mouseY = y * canvas.height / canvas.clientHeight;
     return {x: mouseX, y: mouseY};
 }
 
 function mouseDown(e) {
     e.preventDefault();
-    var mousePos = getMousePosition(e);
 
+    var mousePos = getMousePosition(e.offsetX, e.offsetY);
     var distClickToPoint = Math.sqrt(Math.pow((mousePos.x-annotationPoint.x), 2) +
                                      Math.pow((mousePos.y-annotationPoint.y), 2));
 
@@ -109,9 +119,44 @@ function mouseMove(e) {
     e.preventDefault();
 
     if(drag) {
-        var mousePos = getMousePosition(e);
+        var mousePos = getMousePosition(e.offsetX, e.offsetY);
         updateCurrentPointPos(mousePos);
     }
+}
+
+function handleStart(e) {
+    e.preventDefault();
+
+    var rect = e.target.getBoundingClientRect();
+    var touchX = e.changedTouches[0].pageX - rect.left;
+    var touchY = e.changedTouches[0].pageY - rect.top;
+
+    var mousePos = getMousePosition(touchX, touchY);
+
+    var distClickToPoint = Math.sqrt(Math.pow((mousePos.x-annotationPoint.x), 2) +
+                                     Math.pow((mousePos.y-annotationPoint.y), 2));
+
+    if(distClickToPoint < annotationPoint.radius)
+        drag = true;
+
+    updateCurrentPointPos(mousePos);
+}
+
+function handleMove(e) {
+    e.preventDefault();
+
+    if(drag) {
+        var rect = e.target.getBoundingClientRect();
+        var touchX = e.changedTouches[0].pageX - rect.left;
+        var touchY = e.changedTouches[0].pageY - rect.top;
+
+        var mousePos = getMousePosition(touchX, touchY);
+        updateCurrentPointPos(mousePos);
+    }
+}
+
+function handleEnd(e) {
+    mouseUp();
 }
 
 function keyPress(e) {

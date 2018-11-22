@@ -67,8 +67,6 @@ function getMinAnnotatedPieces(piecesAnnCount, piecesData, amount) {
             minAnnotatedPieces.push(piecesData[minPiece]);
             delete piecesAnnCount[minPiece];
         }
-
-        piecesAnnCount[minPiece] = null;
     }
 
     return minAnnotatedPieces;

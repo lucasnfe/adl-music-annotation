@@ -1,4 +1,5 @@
 var annotationStartingPoint = {x: 0.0, y: 0.0}
+var annotationDuration = 15;
 
 function main() {
     downloadPieces(getPiecesToAnnotate);
@@ -55,7 +56,7 @@ function updateProgressBar() {
 
         var duration = audioControls.duration;
         if (annotationState == 0) {
-            duration = 15;
+            duration = annotationDuration;
         }
 
         var remainingTime = formatSecondsAsTime(audioControls.currentTime);

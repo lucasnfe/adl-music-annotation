@@ -63,43 +63,56 @@ function getMusicianshipValue() {
     return "";
 }
 
-function submitProfileForm() {
-    var annotation = {};
+function updatePiecesCount(data) {
+    var piecesData = data.pieces;
+    var annotationData = data.annotations;
 
-    annotation.answer1_1 = sessionStorage.getItem("answer1_1");
-    annotation.answer1_2 = sessionStorage.getItem("answer1_2");
-    annotation.answer1_3 = sessionStorage.getItem("answer1_3");
+    if(piecesData != null) {
+        var piecesAnnCount = getPiecesAnnotationCount(piecesData, annotationData);
 
-    annotation.answer2_1 = sessionStorage.getItem("answer2_1");
-    annotation.answer2_2 = sessionStorage.getItem("answer2_2");
-    annotation.answer2_3 = sessionStorage.getItem("answer2_3");
+        var annotation = {};
 
-    annotation.gender = genderSelect.value;
-    annotation.age = ageSelect.value;
-    annotation.country = countrySelect.value;
-    annotation.musicianship = getMusicianshipValue();
+        annotation.answer1_1 = sessionStorage.getItem("answer1_1");
+        annotation.answer1_2 = sessionStorage.getItem("answer1_2");
+        annotation.answer1_3 = sessionStorage.getItem("answer1_3");
 
-    var piecesStr = sessionStorage.getItem("pieces");
-    var pieces = piecesStr.split("@");
+        annotation.answer2_1 = sessionStorage.getItem("answer2_1");
+        annotation.answer2_2 = sessionStorage.getItem("answer2_2");
+        annotation.answer2_3 = sessionStorage.getItem("answer2_3");
 
-    var countStr = sessionStorage.getItem("count");
-    var count = countStr.split("@");
+        annotation.gender = genderSelect.value;
+        annotation.age = ageSelect.value;
+        annotation.country = countrySelect.value;
+        annotation.musicianship = getMusicianshipValue();
 
-    var valenceStr = sessionStorage.getItem("valence");
-    var valence = valenceStr.split("@");
+        var piecesStr = sessionStorage.getItem("pieces");
+        var pieces = piecesStr.split("@");
 
-    var arousalStr = sessionStorage.getItem("arousal");
-    var arousal = arousalStr.split("@");
+        // var countStr = sessionStorage.getItem("count");
+        // var count = countStr.split("@");
 
-    for (var i = 0; i < pieces.length - 1; i++) {
-        annotation.isKnown = $('#knownPieceCheck' + i).is(':checked');
-        annotation.valence = JSON.parse("[" + valence[i].substring(0, valence[i].length - 2) + "]");
-        annotation.arousal = JSON.parse("[" + arousal[i].substring(0, arousal[i].length - 2) + "]");
+        var valenceStr = sessionStorage.getItem("valence");
+        var valence = valenceStr.split("@");
 
-        savePieceAnnotation(pieces[i], parseInt(count[i]), annotation);
+        var arousalStr = sessionStorage.getItem("arousal");
+        var arousal = arousalStr.split("@");
+
+        for (var i = 0; i < pieces.length - 1; i++) {
+            var count = piecesAnnCount[pieces[i]];
+
+            annotation.isKnown = $('#knownPieceCheck' + i).is(':checked');
+            annotation.valence = JSON.parse("[" + valence[i].substring(0, valence[i].length - 2) + "]");
+            annotation.arousal = JSON.parse("[" + arousal[i].substring(0, arousal[i].length - 2) + "]");
+
+            savePieceAnnotation(pieces[i], count, annotation);
+        }
+
+        nextPage("final.html")
     }
+}
 
-    nextPage("final.html")
+function submitProfileForm() {
+    downloadPieces(updatePiecesCount);
 }
 
 function main() {
