@@ -8,17 +8,10 @@ function main() {
     initCanvas();
 
     setStep1Modal();
-
-    updateProgressBar();
-    updateAnnotation();
 }
 
 function updateAnnotation() {
     if(drag) {
-        var audioControls = document.getElementById('audio-controls')
-        if(audioControls.paused)
-            audioControls.play();
-
         updateProgressBar();
         annotateEmotion();
     }
@@ -54,9 +47,9 @@ function updateProgressBar() {
 
         var audioControls = document.getElementById('audio-controls')
 
-        var duration = audioControls.duration;
-        if (annotationState == 0) {
-            duration = annotationDuration;
+        var duration = annotationDuration;
+        if (annotationState == 1) {
+            duration = piecesToAnnotate[currentPiece].duration;
         }
 
         var remainingTime = formatSecondsAsTime(audioControls.currentTime);
@@ -74,6 +67,7 @@ function updateProgressBar() {
             if (annotationState == 0) {
                 annotationStartingPoint.x = annotationPoint.x;
                 annotationStartingPoint.y = annotationPoint.y;
+
                 setStep2Modal();
             }
             else {
@@ -126,8 +120,9 @@ function setStep2Modal() {
     $('#modalConfirmationButton').on('click', function (e) {
         annotationState = 1;
 
-        document.getElementById('audio-controls').currentTime = 0;
-        updateProgressBar();
+        // document.getElementById('audio-controls').currentTime = 0;
+        // updateProgressBar();
+        initAnnotationPoint();
     });
 
     mouseUp();
@@ -151,7 +146,6 @@ function setStep3Modal() {
         $('#modalConfirmationButton').on('click', function (e) {
             annotationState = 0;
             nextPiece();
-            updateProgressBar();
         });
     }
     else {
@@ -168,11 +162,8 @@ function setStep3Modal() {
 
     $('#modalCloseButton').removeClass("d-none");
     $('#modalCloseButton').on('click', function (e) {
-        resetPiece(annotationStartingPoint);
-        updateProgressBar();
+        initAnnotationPoint();
     });
-
-
 
     mouseUp();
     $('#myModal').modal('show');

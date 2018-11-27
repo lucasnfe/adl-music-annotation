@@ -57,6 +57,9 @@ function initCanvas() {
         annotationPoint = new AnnotationPoint(canvas.width*0.5, canvas.height*0.5, pointRadius)
         annotationPoint.isEnabled = true;
         annotationPoint.isPlayed = true;
+
+        annotationStartingPoint.x = canvas.width*0.5;
+        annotationStartingPoint.y = canvas.height*0.5;
     }
 }
 
@@ -104,8 +107,10 @@ function mouseDown(e) {
     var distClickToPoint = Math.sqrt(Math.pow((mousePos.x-annotationPoint.x), 2) +
                                      Math.pow((mousePos.y-annotationPoint.y), 2));
 
-    if(distClickToPoint < annotationPoint.radius)
+    if(distClickToPoint < annotationPoint.radius) {
         drag = true;
+        playPiece();
+    }
 
     updateCurrentPointPos(mousePos);
 }

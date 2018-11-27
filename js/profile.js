@@ -27,19 +27,19 @@ function updatePiecesLabels(piecesStr) {
 }
 
 function addCheckEventListenners() {
-    genderSelect.addEventListener("input", function (event) {
+    genderSelect.addEventListener("change", function (event) {
         enableNextButton();
     });
 
-    ageSelect.addEventListener("input", function (event) {
+    ageSelect.addEventListener("change", function (event) {
         enableNextButton();
     });
 
-    countrySelect.addEventListener("input", function (event) {
+    countrySelect.addEventListener("change", function (event) {
         enableNextButton();
     });
 
-    musicianshipSelect.addEventListener("input", function (event) {
+    musicianshipSelect.addEventListener("change", function (event) {
         enableNextButton();
     });
 }
@@ -47,6 +47,7 @@ function addCheckEventListenners() {
 function enableNextButton() {
     var submitButton = document.getElementById('submitButton');
     submitButton.disabled = !validateProfileForm();
+    console.log(validateProfileForm());
 }
 
 function validateProfileForm() {

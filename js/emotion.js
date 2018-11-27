@@ -7,7 +7,7 @@ function main() {
         select1_1.value = answer1_1;
     }
 
-    select1_1.addEventListener("input", function (event) {
+    select1_1.addEventListener("change", function (event) {
         enableNextButton();
     });
 
@@ -18,7 +18,7 @@ function main() {
         select1_2.value = answer1_2;
     }
 
-    select1_2.addEventListener("input", function (event) {
+    select1_2.addEventListener("change", function (event) {
         enableNextButton();
     });
 
@@ -29,7 +29,7 @@ function main() {
         description1.value = answer1_3;
     }
 
-    description1.addEventListener("input", function (event) {
+    description1.addEventListener("change", function (event) {
         enableNextButton();
     });
 
@@ -40,7 +40,7 @@ function main() {
         select2_1.value = answer2_1;
     }
 
-    select2_1.addEventListener("input", function (event) {
+    select2_1.addEventListener("change", function (event) {
         enableNextButton();
     });
 
@@ -51,7 +51,7 @@ function main() {
         select2_2.value = answer2_2;
     }
 
-    select2_2.addEventListener("input", function (event) {
+    select2_2.addEventListener("change", function (event) {
         enableNextButton();
     });
 
@@ -62,7 +62,7 @@ function main() {
         description2.value = answer2_3;
     }
 
-    description2.addEventListener("input", function (event) {
+    description2.addEventListener("change", function (event) {
         enableNextButton();
     });
 

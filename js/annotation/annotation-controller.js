@@ -77,7 +77,6 @@ function getPiecesToAnnotate(data) {
     var annotationData = data.annotations;
 
     if(piecesData != null) {
-
         var piecesAnnCount = getPiecesAnnotationCount(piecesData, annotationData);
         piecesToAnnotate = getMinAnnotatedPieces(piecesAnnCount, piecesData, numberPiecesToAnnotate);
 
@@ -93,12 +92,18 @@ function initAnnotationPoint() {
     annotation[currentPiece].valence = new Array(measuresAmount).fill(0);
     annotation[currentPiece].arousal = new Array(measuresAmount).fill(0);
 
-    document.getElementById('audio-source').src = piecesToAnnotate[currentPiece].audio
+    document.getElementById('audio-source').src = piecesToAnnotate[currentPiece].audio;
+    document.getElementById('audio-controls').addEventListener("canplay", function() {
+        // If the audio is ready to be played, update canvas UI
+        updatePieceLabel("Piece " + (currentPiece+1) + ": " + piecesToAnnotate[currentPiece].name);
+
+        updateAnnotation();
+        updateProgressBar();
+
+        resetAnnotationPoint(annotationStartingPoint);
+    });
 
     document.getElementById('audio-controls').load();
-    document.getElementById('audio-controls').currentTime = 0;
-
-    updatePieceLabel("Piece " + (currentPiece+1) + ": " + piecesToAnnotate[currentPiece].name);
 }
 
 function annotateEmotion() {
@@ -117,34 +122,23 @@ function annotateEmotion() {
     }
 }
 
+function playPiece() {
+    var audioControls = document.getElementById('audio-controls');
+    if(audioControls.paused)
+        audioControls.play();
+}
+
 function pausePiece() {
     document.getElementById('audio-controls').pause();
-}
-
-function resetPiece(annotationStartingPoint) {
-    annotationState = 1;
-    document.getElementById('audio-controls').currentTime = 0;
-
-    resetAnnotationPoint(annotationStartingPoint);
-}
-
-function previousPiece() {
-    currentPiece -= 1;
-
-    if(currentPiece >= 0) {
-        initAnnotationPoint();
-        resetAnnotationPoint();
-    }
-    else {
-        currentPiece = 0;
-    }
 }
 
 function nextPiece() {
     currentPiece += 1;
     if(currentPiece < piecesToAnnotate.length) {
+        annotationStartingPoint.x = canvas.width*0.5;
+        annotationStartingPoint.y = canvas.height*0.5;
+
         initAnnotationPoint();
-        resetAnnotationPoint();
     }
     else {
         currentPiece = piecesToAnnotate.length - 1;
@@ -191,45 +185,6 @@ function finishAnnotation() {
     sessionStorage.setItem("count", countStr);
 
     nextPage("profile.html")
-}
-
-function parseMeasuresAmountFromMusicXML(music_xml) {
-    var parser = new DOMParser();
-    var xmlDoc = parser.parseFromString(music_xml, "text/xml");
-    var parts = xmlDoc.getElementsByTagName("Part");
-
-    measuresAmount = 0;
-    // for (var i = 0; i < parts.length; i++) {
-        // console.log(i);
-        measures = xmlDoc.getElementsByTagName("Measure")
-        forward_repeat = null
-        backward_repeat = null
-
-        for (var j = 0; j < measures.length; j++) {
-            measuresAmount += 1;
-
-            repeat = measures[j].getElementsByTagName("repeat")
-            if(repeat.length > 0) {
-                direction = repeat[0].getAttribute("direction");
-                if(direction == "backward") {
-                    backward_repeat = measures[j];
-                    backward_measure_number = parseInt(backward_repeat.getAttribute("number"));
-
-                    forward_measure_number = 0;
-                    if(forward_repeat != null) {
-                        forward_measure_number = parseInt(backward_repeat.getAttribute("number"));
-                    }
-
-                    measuresAmount += (backward_measure_number - forward_measure_number)
-                }
-                else if (direction == "forward") {
-                    forward_repeat = measures[j];
-                }
-            }
-        }
-    // }
-
-    return measuresAmount;
 }
 
 function timeToMusicMeasure(measuresAmount) {
