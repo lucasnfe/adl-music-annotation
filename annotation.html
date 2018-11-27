@@ -18,18 +18,7 @@
 
         <div class="container pt-4">
             <div id="annotation-area" class="row">
-                <div class="col text-center bg-white text-dark">
-                    <h4 id="piece-name"></h4>
-                    <canvas id="circumplex-canvas" width="500" height="500"></canvas>
 
-                    <audio id="audio-controls">
-                      <source id="audio-source" src="" type="audio/mpeg">
-                    </audio>
-
-                    <div>
-                        <p id="circumplex-labels">Valence: 0.0</br>Arousal: 0.0</p>
-                    </div>
-                </div>
                 <div class="col align-self-top">
                     <div class="p-3 mb-2 bg-danger text-white">
                         <h4>Instructions</h4>
@@ -67,26 +56,37 @@
                         </div>
                     </div>
                 </div>
+                <div class="col text-center bg-white text-dark">
+                    <h4 id="piece-name"></h4>
+                    <canvas id="circumplex-canvas" width="500" height="500"></canvas>
 
-                <!-- Modal -->
-                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-backdrop="static">
-                  <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="modalTitle"></h5>
-                      </div>
-                      <div class="modal-body">
-                        <p id="modalBodyFirstParagraph"></p>
-                        <p id="modalBodySecondParagraph"></p>
-                      </div>
-                      <div class="modal-footer">
-                        <button id="modalCloseButton" type="button" class="btn btn-secondary" data-dismiss="modal"></button>
-                        <button id="modalConfirmationButton" type="button" class="btn btn-primary" data-dismiss="modal"></button>
-                      </div>
+                    <audio id="audio-controls">
+                      <source id="audio-source" src="" type="audio/mpeg">
+                    </audio>
+
+                    <div>
+                        <p id="circumplex-labels">Valence: 0.0</br>Arousal: 0.0</p>
                     </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-backdrop="static">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle"></h5>
+                  </div>
+                  <div class="modal-body">
+                    <p id="modalBodyFirstParagraph"></p>
+                    <p id="modalBodySecondParagraph"></p>
+                  </div>
+                  <div class="modal-footer">
+                    <button id="modalCloseButton" type="button" class="btn btn-secondary" data-dismiss="modal"></button>
+                    <button id="modalConfirmationButton" type="button" class="btn btn-primary" data-dismiss="modal"></button>
                   </div>
                 </div>
-
+              </div>
             </div>
 
             <!-- Load lib scripts  -->

@@ -44,6 +44,10 @@ function initCanvas() {
             canvas.addEventListener("touchmove", handleMove, false);
             canvas.addEventListener("touchend", handleEnd, false);
             canvas.addEventListener("touchcancel", handleEnd, false);
+
+            // Point has to big bigger in mobile platforms, otherwise
+            // users can't see where they are clicking.
+            pointRadius *= 2;
         }
         else {
             canvas.addEventListener('mousedown', mouseDown, false);
@@ -141,8 +145,10 @@ function handleStart(e) {
     var distClickToPoint = Math.sqrt(Math.pow((mousePos.x-annotationPoint.x), 2) +
                                      Math.pow((mousePos.y-annotationPoint.y), 2));
 
-    if(distClickToPoint < annotationPoint.radius)
+    if(distClickToPoint < annotationPoint.radius) {
         drag = true;
+        playPiece();
+    }
 
     updateCurrentPointPos(mousePos);
 }
