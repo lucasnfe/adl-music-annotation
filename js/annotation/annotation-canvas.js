@@ -47,7 +47,7 @@ function initCanvas() {
 
             // Point has to big bigger in mobile platforms, otherwise
             // users can't see where they are clicking.
-            pointRadius *= 2;
+            pointRadius *= 2.25;
         }
         else {
             canvas.addEventListener('mousedown', mouseDown, false);
@@ -137,8 +137,10 @@ function handleStart(e) {
     e.preventDefault();
 
     var rect = e.target.getBoundingClientRect();
-    var touchX = e.changedTouches[0].pageX - rect.left;
-    var touchY = e.changedTouches[0].pageY - rect.top;
+    var body = document.getElementById("body");
+
+    var touchX = e.changedTouches[0].pageX - body.scrollLeft - rect.left;
+    var touchY = e.changedTouches[0].pageY - body.scrollTop - rect.top;
 
     var mousePos = getMousePosition(touchX, touchY);
 
@@ -158,8 +160,10 @@ function handleMove(e) {
 
     if(drag) {
         var rect = e.target.getBoundingClientRect();
-        var touchX = e.changedTouches[0].pageX - rect.left;
-        var touchY = e.changedTouches[0].pageY - rect.top;
+        var body = document.getElementById("body");
+
+        var touchX = e.changedTouches[0].pageX - body.scrollLeft - rect.left;
+        var touchY = e.changedTouches[0].pageY - body.scrollTop - rect.top;
 
         var mousePos = getMousePosition(touchX, touchY);
         updateCurrentPointPos(mousePos);

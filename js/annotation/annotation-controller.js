@@ -76,6 +76,8 @@ function getPiecesToAnnotate(data) {
     var piecesData = data.pieces;
     var annotationData = data.annotations;
 
+    console.log(data);
+
     if(piecesData != null) {
         var piecesAnnCount = getPiecesAnnotationCount(piecesData, annotationData);
         piecesToAnnotate = getMinAnnotatedPieces(piecesAnnCount, piecesData, numberPiecesToAnnotate);
