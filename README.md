@@ -18,7 +18,7 @@ The data annotation process is composed of five steps, each one being a single w
      <p>They are presented to the definitions of valence and arousal. In the same page, they are asked to play two short 
       pieces and indicate whether arousal and valence are increasing or decreasing. Moreover, we ask the annotators to write 
       two to three sentences describing the short pieces they listened to.</p>
-      </br></br></br></br></br></br>
+      </br></br></br></br></br></br></br></br>
  </li>
   
  <li><img align="left" src="/img/screenshots/screenshot3.png" width="280" />
