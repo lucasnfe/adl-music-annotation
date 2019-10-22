@@ -17,7 +17,7 @@ The data annotation process is composed of five steps, each one being a single w
   
  >> ii. Annotation phase: annotators listen to the piece from beginning to end and label it using the annotation circle, which starts at the point defined during the calibration phase.
 
-## Citing this Dataset
+## Citing this Tool
 This tool was presented in [this paper](http://www.lucasnferreira.com/papers/2019/ismir-learning.pdf), so if you use it, 
 please cite:
 
