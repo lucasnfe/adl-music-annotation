@@ -37,5 +37,4 @@ please cite:
   series = {ISMIR'19},
   year={2019},
 }
-
 ```
