@@ -12,12 +12,8 @@ The data annotation process is composed of five steps, each one being a single w
 3. A video tutorial was made available to the annotators explaining how to use the annotation tool.
 
 4. Annotators are exposed to the main annotation page. This main page has two phases: *calibration* and *annotation*.
-
-i. Calibration phase
-Annotators listen to the first 15 seconds of the piece in order to get used to it and to define the starting point of the annotation circle.  
-
-ii. Annotation phase 
-Annotators listen to the piece from beginning to end and label it using the annotation circle, which starts at the point defined during the calibration phase.
+  i. Calibration phase: annotators listen to the first 15 seconds of the piece in order to get used to it and to define the   starting point of the annotation circle.  
+  ii. Annotation phase: annotators listen to the piece from beginning to end and label it using the annotation circle, which starts at the point defined during the calibration phase.
 
 ## Citing this Dataset
 This tool was presented in [this paper](http://www.lucasnferreira.com/papers/2019/ismir-learning.pdf), so if you use it, 
