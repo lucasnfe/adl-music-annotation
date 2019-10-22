@@ -3,12 +3,12 @@ var firebaseScript = document.createElement('script');
 firebaseScript.src = "https://www.gstatic.com/firebasejs/5.0.1/firebase.js";
 firebaseScript.onload = function() {
     var config = {
-      apiKey: "AIzaSyDW7mMPdDf9OMugsEYF-LOafz6y4fsN8Ss",
-      authDomain: "adl-music-annotation.firebaseapp.com",
-      databaseURL: "https://adl-music-annotation.firebaseio.com",
-      projectId: "adl-music-annotation",
-      storageBucket: "adl-music-annotation.appspot.com",
-      messagingSenderId: "1030467665544"
+      apiKey: "",
+      authDomain: "",
+      databaseURL: "",
+      projectId: "",
+      storageBucket: "",
+      messagingSenderId: ""
     };
 
     firebase.initializeApp(config);
