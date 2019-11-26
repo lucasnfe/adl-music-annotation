@@ -1,3 +1,6 @@
+*.csv
 *.pyc
 *.mid
+py/build_dataset/plots
+py/build_dataset/midi
 *.midi
