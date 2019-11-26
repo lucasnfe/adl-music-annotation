@@ -30,7 +30,7 @@ def parse_annotation(filename):
 
 def persist_annotated_mids(annotated_mids):
     with open('annotated_data.csv', mode='w') as fp:
-        fieldnames = ['label', 'id', 'filepath', 'sentence']
+        fieldnames = ['label', 'id', 'part', 'repeat', 'filepath']
         fp_writer = csv.DictWriter(fp, fieldnames=fieldnames)
 
         fp_writer.writeheader()
@@ -42,6 +42,10 @@ def persist_annotated_mids(annotated_mids):
                     non_silence_symbs += 1
 
             if non_silence_symbs > 0:
-                fp_writer.writerow({"label": an["label"], "id": an["id"], "filepath": an["filepath"], "sentence": an["sentence"]})
+                fp_writer.writerow({"label": an["label"],
+                                       "id": an["id"],
+                                     "part": an["part"],
+                                   "repeat": an["repeat"],
+                                 "filepath": an["filepath"]})
             else:
                 print("Removed piece with only silence!")

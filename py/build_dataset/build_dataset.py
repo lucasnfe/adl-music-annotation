@@ -14,7 +14,7 @@ opt = parser.parse_args()
 pieces = ts.parse.parse_annotation(opt.data)
 
 # Cluster pieces
-annotated_data = {}
+annotated_data = []
 
 # Means
 means_pos, means_neg = [], []
@@ -22,7 +22,7 @@ means_pos, means_neg = [], []
 for piece_id in pieces:
     # Get midi name without extension
     midi_name = os.path.basename(pieces[piece_id]["midi"])
-    print("======= PROCESSING", midi_name, "======")
+    print("======= PROCESSING", midi_name, "=======")
 
     # Cluster annotations of this midi file
     processed_data, clustering, h_ix = ts.cluster.cluster_annotations(pieces[piece_id])
@@ -39,20 +39,15 @@ for piece_id in pieces:
 
     # Split midi file at the points of sentiment change (from -1 to 1 or from 1 to -1)
     midi_path = os.path.join(opt.midi, midi_name)
-    print(midi_path)
-    annotated_parts = ts.split.split_midi(piece_id, midi_path, split_valence)
+    midi_sent_parts = ts.split.split_midi(piece_id, midi_path, split_valence)
 
-    for part in annotated_parts:
-        if part["sentence"] not in annotated_data:
-            annotated_data[part["sentence"]] = part
-        else:
-            print("Sentence already added.")
+    annotated_data += midi_sent_parts
+    print(annotated_data)
 
     # ts.plot.plot_annotation(processed_data, midi_name)
     ts.plot.plot_cluster(processed_data["valence"], cl_valence, split_points, "Clustering Valence", "plots/" + midi_name + "_clustering_valence.png")
 
-annotated_mids = [piece for piece in annotated_data.values()]
-ts.parse.persist_annotated_mids(annotated_mids)
+ts.parse.persist_annotated_mids(annotated_data)
 
 # ts.plot.plot_means(means_pos, "plots/means_pos.png", title="Pieces generated to be positive", color=(0,1,0,1))
 # ts.plot.plot_means(means_neg, "plots/means_neg.png", title="Pieces generated to be negative", color=(1,0,0,1))
