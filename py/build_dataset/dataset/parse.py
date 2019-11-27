@@ -28,8 +28,8 @@ def parse_annotation(filename):
 
     return pieces
 
-def persist_annotated_mids(annotated_mids):
-    with open('annotated_data.csv', mode='w') as fp:
+def persist_annotated_mids(annotated_mids, output_path):
+    with open(output_path, mode='w') as fp:
         fieldnames = ['label', 'id', 'part', 'repeat', 'filepath']
         fp_writer = csv.DictWriter(fp, fieldnames=fieldnames)
 

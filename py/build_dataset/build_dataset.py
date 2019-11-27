@@ -3,6 +3,7 @@ import sys
 import argparse
 
 import timeseries as ts
+import dataset as ds
 
 # Parse arguments
 parser = argparse.ArgumentParser(description='train_generative.py')
@@ -11,7 +12,7 @@ parser.add_argument('--midi' , type=str, required=True, help="Test dataset.")
 opt = parser.parse_args()
 
 # Parse music annotaion into a dict of pieces
-pieces = ts.parse.parse_annotation(opt.data)
+pieces = ds.parse.parse_annotation(opt.data)
 
 # Cluster pieces
 annotated_data = []
@@ -19,7 +20,7 @@ annotated_data = []
 # Means
 means_pos, means_neg = [], []
 
-for piece_id in pieces:
+for i, piece_id in enumerate(pieces):
     # Get midi name without extension
     midi_name = os.path.basename(pieces[piece_id]["midi"])
     print("======= PROCESSING", midi_name, "=======")
@@ -42,12 +43,14 @@ for piece_id in pieces:
     midi_sent_parts = ts.split.split_midi(piece_id, midi_path, split_valence)
 
     annotated_data += midi_sent_parts
-    print(annotated_data)
 
-    # ts.plot.plot_annotation(processed_data, midi_name)
-    ts.plot.plot_cluster(processed_data["valence"], cl_valence, split_points, "Clustering Valence", "plots/" + midi_name + "_clustering_valence.png")
+    # Plot valence
+    plot_path = os.path.join("plots", midi_name + "_valence.png")
+    ts.plot.plot_cluster(processed_data["valence"], cl_valence, split_points, "Clustering Valence", plot_path)
 
-ts.parse.persist_annotated_mids(annotated_data)
+train, test = ds.split.generate_data_splits(annotated_data)
+ds.parse.persist_annotated_mids(train, "vgmidi_sent_train.csv")
+ds.parse.persist_annotated_mids(test, "vgmidi_sent_test.csv")
 
 # ts.plot.plot_means(means_pos, "plots/means_pos.png", title="Pieces generated to be positive", color=(0,1,0,1))
 # ts.plot.plot_means(means_neg, "plots/means_neg.png", title="Pieces generated to be negative", color=(1,0,0,1))
