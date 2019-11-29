@@ -48,23 +48,23 @@ def generate_data_splits(annotated_mids, test_percentage=0.1, remove_duplicates=
     # Rank pieces according to amount of negative and positve parts
     ordered_pieces = sort_pieces(pieces, n_pos, n_neg)
 
-    test_parts = 0
-    test_pieces = {}
+    n_test_parts = 0
+    test_parts = {}
 
     train, test = [], []
 
     # Build test set
-    while test_parts < int(test_percentage * len(annotated_mids)):
+    while n_test_parts < int(test_percentage * len(annotated_mids)):
         test_piece_id, test_piece_data = ordered_pieces.popitem(last=False)
-        test_parts += len(test_piece_data["parts"])
+        n_test_parts += len(test_piece_data["parts"])
 
-        test_pieces[test_piece_id] = pieces[test_piece_id]["parts"]
-        test += [an for an in pieces[test_piece_id]["parts"]]
+        test_parts[test_piece_id] = pieces[test_piece_id]["parts"]
+        test += sorted([an for an in pieces[test_piece_id]["parts"]], key = lambda i: i['part'])
 
     # Build train set
     for pc in pieces:
         train_piece_id = pieces[pc]["parts"][0]["id"]
-        if train_piece_id not in test_pieces:
-            train += [an for an in pieces[train_piece_id]["parts"]]
+        if train_piece_id not in test_parts:
+            train += sorted([an for an in pieces[train_piece_id]["parts"]], key = lambda i: i['part'])
 
     return train, test
