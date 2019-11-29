@@ -9,7 +9,7 @@ import dataset as ds
 parser = argparse.ArgumentParser(description='train_generative.py')
 parser.add_argument('--data', type=str, required=True, help="Train dataset.")
 parser.add_argument('--midi' , type=str, required=True, help="Test dataset.")
-parser.add_argument('--no-rmdup', dest='rmdup', action='store_false')
+parser.add_argument('--dupli', dest='rmdup', action='store_false')
 parser.set_defaults(rmdup=True)
 
 opt = parser.parse_args()

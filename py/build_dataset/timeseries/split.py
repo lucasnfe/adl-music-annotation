@@ -6,6 +6,8 @@ import music21 as m21
 from .encoders import midi_encoder as me
 from .tsmath import *
 
+PHRASES_DIR = "phrases"
+
 def split_chunck_with_sentiment(chunck, sign, splits=4):
     chunck_size = math.ceil(len(chunck)/splits)
 
@@ -71,8 +73,8 @@ def split_midi(piece_id, midi_path, splitting_points):
         # Save split as a midi file
         midi_root, midi_ext = os.path.splitext(os.path.basename(midi_path))
 
-        ch_midi_name = midi_root + "_" + str(i) + ".mid"
-        me.write(ch_midi_text, os.path.join("midi", ch_midi_name))
+        ch_midi_name = os.path.join(PHRASES_DIR, midi_root + "_" + str(i) + ".mid")
+        me.write(ch_midi_text, ch_midi_name)
 
         # Add split to the dataset
         if ch_midi_text in annotated_data:
